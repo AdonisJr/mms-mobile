@@ -35,3 +35,71 @@ Follow these steps to set up and run GSMMS:
    ```bash
    git clone https://github.com/your-username/gsmms.git
    cd gsmms
+
+
+Install Dependencies
+
+Using Yarn:
+
+bash
+Always show details
+
+Copy code
+yarn install
+Or, if using npm:
+
+bash
+Always show details
+
+Copy code
+npm install
+Set Up Environment Variables
+
+Create an .env file in the root directory and configure the following:
+
+plaintext
+Always show details
+
+Copy code
+API_BASE_URL=<your_backend_api_url>
+Run the Application
+
+To start the development server and run the app on an emulator or connected device:
+
+bash
+Always show details
+
+Copy code
+expo start
+Build APK for Android (optional)
+
+If you'd like to create an APK for testing or distribution, follow these steps:
+
+Run the build command:
+
+bash
+Always show details
+
+Copy code
+eas build -p android --profile preview
+Download the APK file from Expo's dashboard once the build is complete.
+
+Testing
+You can test the application on an Android/iOS emulator or a physical device using the Expo Go app.
+
+Contributing
+If you'd like to contribute to GSMMS, please fork the repository and create a new branch with your feature or bug fix. Submit a pull request for review when ready.
+
+License
+This project is open-source and available under the MIT License. """
+
+Save the content to a README.md file
+file_path = "/mnt/data/README_GSMMS.md" with open(file_path, "w") as file: file.write(readme_content)
+
+file_path
+
+Always show details
+
+Copy code
+Result
+'/mnt/data/README_GSMMS.md'
