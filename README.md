@@ -1,5 +1,3 @@
-# Let's create the README.md content as a text file that the user can download.
-
 # The content for the README file
 readme_content = """
 # GSMMS - General Services Monitoring and Management System
