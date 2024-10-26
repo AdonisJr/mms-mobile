@@ -1,5 +1,3 @@
-# The content for the README file
-readme_content = """
 # GSMMS - General Services Monitoring and Management System
 
 GSMMS is a React Native application designed to streamline the management and monitoring of general services. This application enables users to request, track, and manage various services efficiently, with features tailored for utility workers, faculty members, and administrators.
