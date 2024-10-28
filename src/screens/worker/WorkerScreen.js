@@ -50,30 +50,59 @@ export default function WorkerScreen({ navigation }) {
     };
 
     // Function to pick an image for proof
-    const pickImage = async (taskId) => {
+    const pickImage = async (taskId, proof) => {
+        // Check if proof already exists
+        if (proof) {
+            // Show confirmation alert to the user
+            Alert.alert(
+                'Confirmation',
+                'You already uploaded proof of work. Do you want to upload a new?',
+                [
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Yes',
+                        onPress: async () => {
+                            await openImagePicker(taskId); // Proceed to image picker
+                        },
+                    },
+                ]
+            );
+        } else {
+            // No existing proof, directly open the image picker
+            await openImagePicker(taskId);
+        }
+    };
+
+    const openImagePicker = async (taskId) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 1,
         });
 
-        if (!result.cancelled) {
-            await uploadProof(taskId, result.uri); // Upload proof image
-            Toast.show({ type: 'success', text1: 'Proof Uploaded', text2: 'Image uploaded successfully' });
+        if (!result.canceled) {
+            await uploadProof(taskId, result.assets[0].uri); // Upload proof image
+            Toast.show({ type: 'success', text1: 'Uploaded', text2: 'Image uploaded successfully' });
             getMyTasks(); // Refresh tasks
+        } else {
+            Toast.show({ type: 'error', text1: 'Not Found', text2: 'Image upload not successful' });
         }
     };
+
+
+    if (mainDataLoading) return <Loading />;
 
     // Render a single task
     const renderTask = ({ item }) => {
         const { service_request, utility_workers, deadline, status } = item;
         const { service, requested, approver } = service_request;
 
-        console.log(item)
-
         return (
             <View className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
-                <View>
+                <View key={item.id}>
                     {/* Task Details */}
                     <Text className="text-xl font-bold text-gray-800">{service?.name || 'N/A'}</Text>
                     <Text className="text-gray-600 mb-1">Where: {requested?.department || 'N/A'}</Text>
@@ -137,11 +166,11 @@ export default function WorkerScreen({ navigation }) {
                     )}
                     {status === 'in_progress' && (
                         <TouchableOpacity
-                            onPress={() => pickImage(item.id)}
+                            onPress={() => pickImage(item.id, item.proof)}
                             className="flex-row items-center p-2 bg-green-400 rounded ml-2"
                         >
                             <MaterialIcons name="cloud-upload" size={20} color="white" />
-                            <Text className="text-white font-bold ml-2">Upload Proof</Text>
+                            <Text className="text-white font-bold ml-2">Proof</Text>
                         </TouchableOpacity>
                     )}
                 </View>
@@ -149,7 +178,6 @@ export default function WorkerScreen({ navigation }) {
         );
     };
 
-    if (mainDataLoading) return <Loading />;
 
     return (
         <View className="flex-1 py-6 bg-gray-100">
@@ -161,7 +189,7 @@ export default function WorkerScreen({ navigation }) {
                 ) : (
                     <FlatList
                         data={tasks}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={(item) => item.id?.toString()}
                         renderItem={renderTask}
                         ListEmptyComponent={<Text className="text-center text-gray-600 mt-4">No tasks available</Text>}
                     />

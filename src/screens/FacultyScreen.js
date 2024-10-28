@@ -6,10 +6,12 @@ import Toast from 'react-native-toast-message';
 import Header from '../components/Header';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useFocusEffect } from '@react-navigation/native';
+import { useCurrentNavStore } from '../store/currentNavStore';
 
 export default function FacultyScreen({ navigation }) {
   const [requestedServices, setRequestedServices] = useState([]);
   const [mainDataLoading, setMainDataLoading] = useState(false);
+  const { setNavigation } = useCurrentNavStore();
 
   const getRequestedServices = async () => {
     setMainDataLoading(true);
@@ -28,8 +30,9 @@ export default function FacultyScreen({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       getRequestedServices();
+      setNavigation('Faculty Screen')
     }, [])
-);
+  );
 
   if (mainDataLoading) return <Loading />;
 
@@ -54,7 +57,7 @@ export default function FacultyScreen({ navigation }) {
               <Text className="text-gray-600 mb-2">
                 Approved By: {item.approved_by ? item.approved_by : 'Pending'}
               </Text>
-              
+
               <Text className="text-gray-600 mb-2">Date Requested: {new Date(item.created_at).toLocaleDateString()}</Text>
             </View>
             <TouchableOpacity

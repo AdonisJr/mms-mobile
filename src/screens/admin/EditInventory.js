@@ -50,8 +50,11 @@ export default function EditInventory({ navigation, route }) {
     };
 
     return (
-        <ScrollView className="flex-1">
-            <View className="flex-1 h-screen p-4">
+        <View className="flex-1">
+            <View className="pl-4 bg-white">
+                <Text className="text-2xl pt-4">Fillup form</Text>
+            </View>
+            <ScrollView className="flex-1">
                 <View className="bg-white p-6 rounded-lg shadow-lg w-full relative">
 
                     {/* Equipment Type Input */}
@@ -118,7 +121,7 @@ export default function EditInventory({ navigation, route }) {
 
                     {/* Location Input */}
                     <TextInput
-                        placeholder="Location"
+                        placeholder="Office"
                         value={formData.location}
                         onChangeText={(text) => setFormData({ ...formData, location: text })}
                         className="border border-gray-300 p-3 rounded-lg mb-4"
@@ -197,9 +200,9 @@ export default function EditInventory({ navigation, route }) {
                         <Text className="text-white text-lg font-bold">UPDATE</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ScrollView>
             <Toast />
             {loading && <Loading />}
-        </ScrollView>
+        </View>
     );
 }

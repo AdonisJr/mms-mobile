@@ -10,7 +10,6 @@ import { useCurrentNavStore } from '../store/currentNavStore';
 export default function UsersScreen({ navigation }) {
   const { user } = useUserStore();
   const { setNavigation } = useCurrentNavStore();
-
   const [activePage, setActivePage] = useState('all');
 
   useFocusEffect(

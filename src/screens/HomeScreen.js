@@ -21,13 +21,13 @@ export default function HomeScreen({ navigation }) {
     return (
         <View className="flex-1 py-6">
             <Header navigation={navigation} />
-            <View className="bg-blue-200">
+            <View className="bg-slate-100">
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row gap-5 ps-2 px-2 w-full pe-4">
                     <TouchableOpacity className='h-[60px] flex-row items-center justify-center'
                         onPress={() => setActivePage('requested services')}
                     >
                         <Text className={`font-semibold ${activePage === 'requested services' ? 'text-lg text-black font-bold' : 'text-sm text-slate-600'}`}>
-                            <Text className="text-blue-200">e</Text> Requested Services
+                            <Text className="text-slate-100">e</Text> Requested Services
                         </Text>
                     </TouchableOpacity>
 
@@ -36,14 +36,6 @@ export default function HomeScreen({ navigation }) {
                     >
                         <Text className={`font-semibold ${activePage === 'available services' ? 'text-lg text-black font-bold' : 'text-sm text-slate-600'}`}>
                             Available Services
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className='h-[60px] flex-row items-center justify-center'
-                        onPress={() => setActivePage('pending services')}
-                    >
-                        <Text className={`font-semibold ${activePage === 'pending services' ? 'text-lg text-black font-bold' : 'text-sm text-slate-600'}`}>
-                            Pending Services <Text className="text-blue-200">eee</Text>
                         </Text>
                     </TouchableOpacity>
                 </ScrollView>

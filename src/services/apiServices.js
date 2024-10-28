@@ -1,9 +1,9 @@
 import axios from "axios"
 import { getData } from "../store/LocalStorage";
 import { API_URL, API_KEY } from '@env';
-
 const apiClient = axios.create({
-    baseURL: 'http://192.168.1.6:8000/api',
+    // baseURL: 'http://192.168.1.6:8000/api',
+    baseURL: `${API_URL}`,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -187,7 +187,7 @@ export const fetchMyTask = async () => {
 
 export const updateTaskStatus = async (payload) => {
     try {
-        const response = await apiClient.put(`/updateTask/${payload.id}`, payload)
+        const response = await apiClient.put(`/updateTaskStatus/${payload.id}`, payload)
         console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
@@ -196,16 +196,37 @@ export const updateTaskStatus = async (payload) => {
     }
 }
 
-export const uploadProof = async (id, url, status) => {
+export const uploadProof = async (id, uri) => {
+    console.log('/uploadProof');
+    const formData = new FormData();
+
+    if (uri) {
+        formData.append('proof', {
+            uri: uri,
+            type: 'image/jpeg', // or the correct mime type
+            name: 'proof.jpg', // you can set a default name
+        });
+    }
+
     try {
-        const response = await apiClient.put(`/updateTask/${id}`, {prrof: url, status})
-        console.log('response data: ', response.data)
+        const response = await apiClient.post(`/uploadProof/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        console.log('Response data: ', response.data);
         return response.data;
     } catch (error) {
-        console.log('apiServices/updateTask : ', error.response.data.message)
-        throw new Error('Failed to to update task')
+        console.log('apiServices/uploadProof: ', error.response?.data?.message || error.message);
+        throw new Error('Failed to upload proof');
     }
-}
+};
+
+
+
+
+
 
 // Preventive maintenance
 
@@ -222,7 +243,7 @@ export const schedulePreventiveMaintenance = async (payload) => {
 }
 
 export const updatePreventiveTaskStatus = async (payload) => {
-    console.log({id: payload})
+    console.log({ id: payload })
     try {
         const response = await apiClient.put(`/preventive-maintenance/${payload.id}`, payload)
         console.log('response data: ', response.data)

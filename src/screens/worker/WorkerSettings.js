@@ -6,13 +6,26 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Header from '../../components/Header';
 import Toast from 'react-native-toast-message';
 import Loading from '../../components/Loading';
+import { updateUser } from '../../services/apiServices';
+import { storeData } from '../../store/LocalStorage';
 
 export default function WorkerSettings({ navigation }) {
-    const { user } = useUserStore();
+    const { user, setUser } = useUserStore();
     const [isEdit, setIsEdit] = useState(false);
-    const [formData, setFormData] = useState(user);
     const [loading, setLoading] = useState(false);
     const [mainDataLoading, setMainDataLoading] = useState(false);
+
+    const [formData, setFormData] = useState({
+        firstname: user?.firstname || '',
+        middlename: user?.middlename || '',
+        lastname: user?.lastname || '',
+        email: user?.email || '',
+        gender: user?.gender || '',
+        role: user?.role || '',
+        department: user?.department || '',
+        created_at: user?.created_at || '',
+        id: user?.id
+    });
 
     const handleToggleEdit = () => {
         setIsEdit(!isEdit);
@@ -22,12 +35,34 @@ export default function WorkerSettings({ navigation }) {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = () => {
-        // Logic for saving formData
-        console.log("Updated Data:", formData);
-        // Reset isEdit state to false after saving
-        setIsEdit(false);
-    };
+    const handleSubmit = async () => {
+        setLoading(false);
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (formData?.firstname === '' || !formData?.firstname) return Toast.show({ type: 'error', text1: 'Error', text2: 'First Name is required.' });
+        if (formData?.lastname === '' || !formData?.lastname) return Toast.show({ type: 'error', text1: 'Error', text2: 'Last Name is required' });
+        if (formData.email === '' || !formData.email) return Toast.show({ type: 'error', text1: 'Error', text2: 'Email is required.' });
+        if (!emailRegex.test(formData.email)) return Toast.show({ type: 'error', text2: 'Invalid email format' });
+        if (formData.type === '') return Toast.show({ type: 'error', text1: 'Error', text2: 'Type is required' });
+        if (formData.type === 'faculty' && formData.department === '') return Toast.show({ type: 'error', text1: 'Error', text2: 'Please select department' });
+
+        try {
+            setLoading(true);
+
+            const response = await updateUser(formData);
+            console.log('New DATA', response); // Correct log after fetching data
+            Toast.show({ type: 'success', text1: 'Success Message', text2: 'Successfully updated' });
+            setUser(response);
+            await storeData('user', response)
+            setIsEdit(false);
+        } catch (error) {
+            Toast.show({ type: 'error', text1: 'Error', text2: error.message });
+        } finally {
+            setLoading(false);
+        }
+
+    }
 
     if (mainDataLoading) return <Loading />
 

@@ -76,8 +76,8 @@ export default function PreventiveMaintenanceTask({ navigation }) {
     return (
         <View className="flex-1 py-6">
             <Header navigation={navigation} />
+            <Text className="text-2xl font-bold pl-4 pt-4">Preventive Maintenance Task</Text>
             <ScrollView className="px-4 py-6">
-                <Text className="text-2xl font-bold mb-6">Preventive Maintenance Task</Text>
 
                 {preventiveDatas.map((maintenance) => (
                     <View key={maintenance.id} className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">

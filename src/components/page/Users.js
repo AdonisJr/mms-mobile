@@ -45,7 +45,7 @@ export default function Users({ navigation, activePage }) {
   useFocusEffect(
     useCallback(() => {
       getUsers();
-      setNavigation('PreventiveMaintenance');
+      setNavigation('Users');
     }, [activePage])
   );
 

@@ -36,6 +36,7 @@ import InventoryScreen from './src/screens/admin/InventoryScreen';
 import EditInventory from './src/screens/admin/EditInventory';
 import EditRequestedServices from './src/components/page/faculty/EditRequestedServices';
 import EditTask from './src/screens/admin/EditTask';
+import { ViewImageScreen } from './src/components/page/ViewImageScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -80,6 +81,7 @@ export default function App() {
         <Stack.Screen name="MainApp" component={MainApp} options={{ headerShown: false }} />
         <Stack.Screen name="FacultyApp" component={FacultyApp} options={{ headerShown: false }} />
         <Stack.Screen name="WorkerApp" component={WorkerApp} options={{ headerShown: false }} />
+        <Stack.Screen name="Image Screen" component={ViewImageScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>
@@ -90,7 +92,11 @@ function MainApp() {
   const [currentRoute, setCurrentRoute] = useState('Services'); // Default route
   const navigation = useNavigation(); // Get the navigation object
   const route = useRoute(); // Get the current route object
-  const { currentNav } = useCurrentNavStore();
+  const { currentNav, setCurrentApp } = useCurrentNavStore();
+
+  useEffect(() => {
+    setCurrentApp('Main')
+  }, [])
   return (
     <Stack.Navigator>
       <Stack.Screen name="Main" options={{ headerShown: false }}>
@@ -109,10 +115,12 @@ function MainApp() {
                     iconName = focused ? 'newspaper' : 'newspaper-outline';
                   } else if (route.name === 'Task') {
                     iconName = focused ? 'construct' : 'construct-outline';
-                  } else if (route.name === 'Maintenance'){
+                  } else if (route.name === 'Maintenance') {
                     iconName = focused ? 'newspaper' : 'newspaper-outline';
-                  }else if (route.name === 'Inventory'){
+                  } else if (route.name === 'Inventory') {
                     iconName = focused ? 'add-circle' : 'add-circle-outline';
+                  } else {
+                    iconName = focused ? 'settings' : 'settings-outline';
                   }
 
                   return <Ionicons name={iconName} size={size} color={color} />;
@@ -129,7 +137,7 @@ function MainApp() {
               <Tab.Screen name="Task" component={TasksScreen} />
               <Tab.Screen name="Maintenance" component={PreventiveMaintenance} />
               <Tab.Screen name="Inventory" component={InventoryScreen} />
-              <Tab.Screen name="Settings" component={PreventiveMaintenance} />
+              <Tab.Screen name="Settings" component={SettingsScreen} />
             </Tab.Navigator>
             {/* Floating Add Button using NativeWind */}
             <TouchableOpacity className="absolute bottom-8 self-center bg-white rounded-full z-10"
@@ -138,7 +146,7 @@ function MainApp() {
                   ? navigation.navigate('Schedule Preventive Maintenance')
                   : currentNav === 'Inventory'
                     ? navigation.navigate('Inventory Equipment')
-                    : navigation.navigate('Insert User') // Fix typo here
+                    : navigation.navigate('Insert User')
               }
               // onPress={() =>
               //   currentNav === 'PreventiveMaintenance'
@@ -168,6 +176,10 @@ function MainApp() {
 
 function FacultyApp() {
   const navigation = useNavigation(); // Get the navigation object
+  const { currentNav, setCurrentApp } = useCurrentNavStore();
+  useEffect(() => {
+    setCurrentApp('Faculty')
+  }, [])
   return (
     <Stack.Navigator>
       <Stack.Screen name="Main" options={{ headerShown: false }}>
@@ -187,7 +199,7 @@ function FacultyApp() {
                   return <Ionicons name={iconName} size={size} color={color} />;
                 },
                 headerShown: false,
-                tabBarActiveTintColor: 'tomato',
+                tabBarActiveTintColor: 'teal',
                 tabBarInactiveTintColor: 'gray',
                 tabBarStyle: 'bg-gray-200 h-16 p-3 shadow-lg',
                 tabBarLabelStyle: 'text-sm font-semibold',
@@ -201,8 +213,9 @@ function FacultyApp() {
             <TouchableOpacity
               className="absolute bottom-5 self-center bg-white rounded-full z-10"
               onPress={() => navigation.navigate('Request Services')}
+              style={{ display: (currentNav === 'Faculty Screen') ? 'flex' : 'none' }} // Multiple conditions for visibility
             >
-              <Ionicons name="add-circle" size={60} color="tomato" />
+              <Ionicons name="add-circle" size={60} color="powderblue" />
             </TouchableOpacity>
           </View>
         )}
@@ -215,6 +228,10 @@ function FacultyApp() {
 
 function WorkerApp() {
   const navigation = useNavigation(); // Get the navigation object
+  const { setCurrentApp } = useCurrentNavStore();
+  useEffect(() => {
+    setCurrentApp('Worker')
+  }, [])
   return (
     <Stack.Navigator>
       <Stack.Screen name="Main" options={{ headerShown: false }}>
@@ -227,7 +244,7 @@ function WorkerApp() {
 
                   if (route.name === 'AvailableTask') {
                     iconName = focused ? 'home' : 'home-outline';
-                  } else if (route.name === 'Worker Settings') {
+                  } else if (route.name === 'Settings') {
                     iconName = focused ? 'settings' : 'settings-outline';
                   } else if (route.name === 'PreventiveTask') {
                     iconName = focused ? 'newspaper' : 'newspaper-outline';
@@ -236,7 +253,7 @@ function WorkerApp() {
                   return <Ionicons name={iconName} size={size} color={color} />;
                 },
                 headerShown: false,
-                tabBarActiveTintColor: 'tomato',
+                tabBarActiveTintColor: 'teal',
                 tabBarInactiveTintColor: 'gray',
                 tabBarStyle: 'bg-gray-200 h-16 p-3 shadow-lg',
                 tabBarLabelStyle: 'text-sm font-semibold',
@@ -244,7 +261,7 @@ function WorkerApp() {
             >
               <Tab.Screen name="AvailableTask" component={WorkerScreen} />
               <Tab.Screen name="PreventiveTask" component={PreventiveMaintenanceTask} />
-              <Tab.Screen name="Worker Settings" component={WorkerSettings} />
+              <Tab.Screen name="Settings" component={SettingsScreen} />
             </Tab.Navigator>
 
 

@@ -13,6 +13,8 @@ export default function PreventiveMaintenanceTask({ navigation }) {
     const [mainDataLoading, setMainDataLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const [preventiveDatas, setPreventiveDatas] = useState([]);
+    const [showAllStates, setShowAllStates] = useState({}); // Change to object to handle each item
+    const initialDisplayCount = 3;
 
     const getAllData = async () => {
         setMainDataLoading(true);
@@ -64,12 +66,19 @@ export default function PreventiveMaintenanceTask({ navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-        getAllData();
+            getAllData();
             setNavigation('PreventiveMaintenance');
         }, [])
     );
 
     if (mainDataLoading) return <Loading />;
+
+    const toggleShowAll = (id) => {
+        setShowAllStates((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id], // Toggle the specific ID
+        }));
+    };
 
     return (
         <View className="flex-1 py-6">
@@ -77,7 +86,8 @@ export default function PreventiveMaintenanceTask({ navigation }) {
             <ScrollView className="px-4 py-6">
                 <Text className="text-2xl font-bold mb-6">Preventive Maintenance Task</Text>
 
-                {preventiveDatas.map((maintenance) => (
+                {preventiveDatas.map((maintenance) => 
+                (
                     <View key={maintenance.id} className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
                         <View style={{ flex: 1 }}>
                             <Text className="text-xl font-bold text-gray-800">{maintenance.name}</Text>
@@ -92,12 +102,28 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                                 </Text>
                             </Text>
 
-                            <Text className="mt-4 font-semibold text-gray-800">Assigned Users:</Text>
-                            {maintenance.users.map((user) => (
-                                <View key={user.id} className="ml-4 mt-2">
-                                    <Text className="text-gray-700">{`${user.firstname || 'N/A'} ${user.lastname || 'N/A'} (${user.department || 'N/A'})`}</Text>
-                                </View>
-                            ))}
+                            <Text className="mt-4 font-semibold text-gray-800">Assigned Personnel:</Text>
+                            
+                            <View style={{ minHeight: 50 }}>
+                                {
+                                    maintenance.users.slice(0, showAllStates[maintenance.id] ? maintenance.users.length : initialDisplayCount)
+                                        .map((worker, index) => (
+                                            <Text key={index} className="text-gray-700 pl-2">
+                                                {worker ? `${worker.firstname} ${worker.lastname} ( ${worker.department} )` : 'N/A'}
+                                            </Text>
+                                        ))
+                                }
+                            </View>
+
+                            {/* Display "See More" if there are more workers to show */}
+                            {maintenance.users.length > initialDisplayCount && (
+                                <TouchableOpacity onPress={() => toggleShowAll(maintenance.id)}>
+                                    <Text className="pl-2">{!showAllStates[maintenance.id] ? "..." : ""}</Text>
+                                    <Text className="text-blue-600">
+                                        {showAllStates[maintenance.id] ? "See Less" : "See More"}
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
                         </View>
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Scheduled Preventive Maintenance', { data: maintenance })}

@@ -12,7 +12,7 @@ export default function InventoryScreen({ navigation }) {
     const { setNavigation } = useCurrentNavStore();
     const [datas, setDatas] = useState([]);
     const [mainDataLoading, setMainDataLoading] = useState(false);
-    
+
     const getData = async () => {
         setMainDataLoading(true);
         try {
@@ -34,6 +34,10 @@ export default function InventoryScreen({ navigation }) {
         }, [])
     );
 
+    if (mainDataLoading) {
+        return <Loading />;
+    }
+
     const renderItem = ({ item }) => (
         <View className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
             <View style={{ flex: 1 }}>
@@ -41,8 +45,8 @@ export default function InventoryScreen({ navigation }) {
                 <Text className="text-gray-600 mb-2">Name: {item.name}</Text>
                 <Text className="text-gray-600 mb-2">Model: {item.model || 'N/A'}</Text>
                 <Text className="text-gray-700 mb-1">Acquisition Date: {item.acquisition_date}</Text>
-                <Text className="text-gray-700 mb-1">Location: {item.location}</Text>
                 <Text className="text-gray-700 mb-1">Warranty: {item.warranty || 'N/A'}</Text>
+                <Text className="text-gray-700 mb-1">Office: {item.location}</Text>
                 <Text className="text-gray-700 mb-1">Department: {item.department}</Text>
                 <Text className="text-gray-700 mb-2">Status: {item.status}</Text>
                 <Text className="text-gray-700 mb-2">Condition: {item.condition}</Text>
@@ -50,7 +54,7 @@ export default function InventoryScreen({ navigation }) {
             </View>
             <TouchableOpacity
                 onPress={() => navigation.navigate('Edit Inventory', { data: item })}
-                className={`flex-row items-center p-2 rounded bg-blue-400`}
+                className="flex-row items-center p-2 rounded bg-blue-400"
             >
                 <MaterialIcons name="edit" size={15} color="white" />
                 <Text className="text-white font-bold ml-1">Edit</Text>
@@ -58,21 +62,22 @@ export default function InventoryScreen({ navigation }) {
         </View>
     );
 
-    if (mainDataLoading) {
-        return <Loading />;
-    }
-
     return (
         <View className="flex-1 py-6 bg-gray-100">
             <Header navigation={navigation} />
             <View className="px-4 py-6">
-                <Text className="text-2xl font-bold mb-6">Inventory</Text>
+                {
+                    datas.length === 0 ? '' :
+                        <Text className="text-2xl font-bold mb-6">Inventory List</Text>
+                }
                 <FlatList
                     data={datas}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id.toString()} // Assuming 'id' is a unique identifier
                     contentContainerStyle={{ paddingBottom: 20 }}
+                    ListEmptyComponent={<Text className="text-center text-gray-500">No Inventory found.</Text>}
                 />
+
                 <Toast />
             </View>
         </View>

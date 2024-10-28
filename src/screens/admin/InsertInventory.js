@@ -56,8 +56,13 @@ export default function InsertInventory({ navigation }) {
     };
 
     return (
-        <ScrollView className="flex-1">
-            <View className="flex-1 h-screen p-4">
+        <View className="flex-1">
+
+            <View className="pl-4 bg-white">
+                <Text className="text-2xl pt-4">Fillup form</Text>
+            </View>
+            <ScrollView className="flex-1">
+                {/* <View className="h-screen"> */}
                 <View className="bg-white p-6 rounded-lg shadow-lg w-full relative">
 
                     {/* Equipment Type Input */}
@@ -122,14 +127,6 @@ export default function InsertInventory({ navigation }) {
                         />
                     )}
 
-                    {/* Location Input */}
-                    <TextInput
-                        placeholder="Location"
-                        value={formData.location}
-                        onChangeText={(text) => setFormData({ ...formData, location: text })}
-                        className="border border-gray-300 p-3 rounded-lg mb-4"
-                    />
-
                     {/* Warranty Input */}
                     <TextInput
                         placeholder="Warranty (optional)"
@@ -138,6 +135,13 @@ export default function InsertInventory({ navigation }) {
                         className="border border-gray-300 p-3 rounded-lg mb-4"
                     />
 
+                    {/* Office Input */}
+                    <TextInput
+                        placeholder="Office"
+                        value={formData.location}
+                        onChangeText={(text) => setFormData({ ...formData, location: text })}
+                        className="border border-gray-300 p-3 rounded-lg mb-4"
+                    />
                     {/* Department Input */}
                     <View className="border border-gray-300 rounded-lg mb-4">
                         <Picker
@@ -199,9 +203,10 @@ export default function InsertInventory({ navigation }) {
                         <Text className="text-white text-lg font-bold">INSERT</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+                {/* </View> */}
+            </ScrollView>
             <Toast />
             {loading && <Loading />}
-        </ScrollView>
+        </View>
     );
 }
