@@ -3,6 +3,7 @@
     "name": "gsmms",
     "slug": "gsmms",
     "version": "1.0.0",
+    "projectId": "d5ded826-5c4d-41f3-8ee4-573cc28cd9cc",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

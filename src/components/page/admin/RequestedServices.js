@@ -99,26 +99,28 @@ export default function RequestedServices({ navigation }) {
     <View className="bg-white p-4 mb-3 rounded-lg shadow-2xl flex-row justify-between items-center mt-2">
       <View className="flex-1 mr-2">
         <Text className="text-lg font-bold text-gray-800">{item.service.name}</Text>
-        <Text className="text-gray-600">{item.description}</Text>
-        <Text className="text-gray-800">Requested by:
-          <Text className="font-semibold">{`${item.user.firstname} ${item.user.lastname}`}</Text>
+        <Text className="text-gray-600 text-lg">{item.description}</Text>
+        <Text className="text-gray-800 text-lg">Requested by:
+          <Text className="font-semibold text-lg">{`${item.user.firstname} ${item.user.lastname}`}</Text>
         </Text>
-        <Text className="text-gray-800">Department: <Text className="font-semibold">{item.user.department}</Text></Text>
-        <Text className={`text-gray-600 ${item.status === 'approved' ? '' : 'mb-2'}`}>Requested Date: {new Date(item.created_at).toLocaleDateString()}</Text>
+        <Text className="text-gray-800 text-lg">Department: <Text className="font-semibold">{item.user.department}</Text></Text>
+        <Text className={`text-gray-600 text-lg ${item.status === 'approved' ? '' : 'mb-2'}`}>Requested Date: {new Date(item.created_at).toLocaleDateString()}</Text>
         {item.status === 'approved' && (
-          <Text className="text-gray-600 mb-2">Approved on: {new Date(item.updated_at).toLocaleDateString()}</Text>
+          <Text className="text-gray-600 mb-2 text-lg">Approved on: {new Date(item.updated_at).toLocaleDateString()}</Text>
         )}
-        <View className={`rounded-2xl w-[150px] ${item.status === 'approved' ? 'bg-emerald-200' : item.status === 'rejected' ? 'bg-red-200' : 'bg-orange-200'}`}>
+        <View className={`rounded-2xl w-[150px] text-lg ${item.status === 'approved' ? 'bg-emerald-200' : item.status === 'rejected' ? 'bg-red-200' : 'bg-orange-200'}`}>
           <Picker
             selectedValue={item.status}
             style={{ height: 50, width: 150 }}
             onValueChange={(value) => confirmUpdate(item, value)}
+            enabled={item.status !== 'approved' && item.status !== 'rejected'} // Enable if not approved or rejected
           >
             <Picker.Item label="Approved" value="approved" />
             <Picker.Item label="Rejected" value="rejected" />
             <Picker.Item label="Pending" value="pending" />
           </Picker>
         </View>
+
       </View>
 
       <View className="flex-col gap-10">

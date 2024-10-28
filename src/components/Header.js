@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -8,17 +8,43 @@ import { useUserStore } from '../store/userStore';
 import { useCurrentNavStore } from '../store/currentNavStore';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { fetchNotifications } from '../services/apiServices';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Header({ navigation }) {
     const { user, logout } = useUserStore();
     const { currentApp } = useCurrentNavStore();
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [notifications, setNotifications] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
 
     const handleLogout = () => {
         logout();
         navigation.navigate('Login');
         setDropdownVisible(false);
     };
+
+    const getNotifications = async () => {
+        try {
+            const response = await fetchNotifications();
+            setNotifications(response);
+
+            // Filter unread notifications and count them
+            const unreadNotifications = response.filter(notification => !notification.isRead);
+            setUnreadCount(unreadNotifications.length);
+            console.log('Requested Services:', response);
+        } catch (error) {
+            console.log(error);
+            // Toast.show({ type: 'error', text1: 'Error', text2: error.message });
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            getNotifications();
+            console.log({ notif: notifications })
+        }, [])
+    );
 
     return (
         <View className="bg-slate-100">
@@ -38,20 +64,20 @@ export default function Header({ navigation }) {
                                     ? navigation.navigate('Services')
                                     : navigation.navigate('AvailableTask')
                         }
-
                     >
                         <View className="flex-col justify-center items-center">
                             <FontAwesome5 name="tools" size={24} color="white" />
                             <Text className="text-xs font-bold text-white">GSMMS</Text>
                         </View>
-                        {/* <Feather name="home" size={20} color="white" /> */}
                     </TouchableOpacity>
 
                     <View className="flex-row items-center gap-4">
-                        <TouchableOpacity className="relative">
-                            <View className="absolute top-0 -right-2 bg-red-500 rounded-full flex items-center justify-center z-40 w-5 h-3">
-                                <Text className="text-xs text-white font-bold">0</Text>
-                            </View>
+                        <TouchableOpacity className="relative" onPress={() => navigation.navigate('Notifications', { data: notifications})}>
+                            {unreadCount > 0 && (
+                                <View className="absolute top-0 -right-2 bg-red-500 rounded-full flex items-center justify-center z-40 w-5 h-3">
+                                    <Text className="text-xs text-white font-bold">{unreadCount}</Text>
+                                </View>
+                            )}
                             <MaterialCommunityIcons name="bell-badge" size={22} color="white" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => setDropdownVisible(true)}>
@@ -60,7 +86,6 @@ export default function Header({ navigation }) {
                             </View>
                         </TouchableOpacity>
                     </View>
-
                 </View>
             </View>
 
@@ -79,7 +104,7 @@ export default function Header({ navigation }) {
                     onPress={() => setDropdownVisible(false)}
                     activeOpacity={1}
                 >
-                    <View className="absolute top-14 right-4 bg-slate-200 shadow-lg rounded-lg p-4 w-40">
+                    <View className="absolute top-14 right-4 bg-slate-100 shadow-lg rounded-lg p-4 w-40">
                         <Text className="text-lg font-bold mb-2 text-gray-800">{user?.firstname} {user?.lastname}</Text>
                         <TouchableOpacity
                             className="flex-row items-center py-2"

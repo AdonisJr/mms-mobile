@@ -65,25 +65,25 @@ export default function TasksScreen({ navigation }) {
     const { service, requested, approver } = service_request;
 
     return (
-      <View className="flex-row justify-between items-center bg-white p-4 mb-4 rounded-lg shadow-md border border-gray-200">
+      <View className="flex-col justify-between bg-white p-4 mb-4 rounded-lg shadow-md border border-gray-200">
         <View>
           {/* Task Details */}
-          <Text className="text-lg font-bold text-gray-900">Task: {service?.name}</Text>
-          <Text className="text-sm font-semibold text-gray-700 mt-2">Where: {requested?.department}</Text>
-          <Text className="text-gray-700 mb-1">Task Status:
+          <Text className="text-xl font-bold text-gray-900">Task: {service?.name}</Text>
+          <Text className="text-lg font-semibold text-gray-700 mt-2">Where: {requested?.department}</Text>
+          <Text className="text-gray-700 mb-1 text-lg">Task Status:
             <Text
-              className={`text-white ${status === 'in_progress' ? 'bg-blue-400'
+              className={`text-white text-lg ${status === 'in_progress' ? 'bg-blue-400'
                 : status === 'pending' ? 'bg-yellow-400' : 'bg-emerald-400'}`}>
               {" " + status.toUpperCase() + " "}
             </Text>
           </Text>
-          <Text className="text-sm text-gray-600">Deadline: {deadline}</Text>
+          <Text className="text-lg text-gray-600">Deadline: {deadline}</Text>
 
           {/* Service Request Details */}
-          <Text className="font-semibold text-base text-gray-800 mt-4">Service Request</Text>
-          <Text className="text-sm text-gray-700">Service: {service ? service.name : 'N/A'}</Text>
-          <Text className="text-sm text-gray-700">Requested By: {requested ? `${requested.firstname} ${requested.lastname}` : 'N/A'}</Text>
-          <Text className="text-sm text-gray-700">Approved By: {approver ? `${approver.firstname} ${approver.lastname}` : 'N/A'}</Text>
+          <Text className="font-semibold text-lg text-gray-800 mt-4">Service Request</Text>
+          <Text className="text-lg text-gray-700">Service: {service ? service.name : 'N/A'}</Text>
+          <Text className="text-lg text-gray-700">Requested By: {requested ? `${requested.firstname} ${requested.lastname}` : 'N/A'}</Text>
+          <Text className="text-lg text-gray-700">Approved By: {approver ? `${approver.firstname} ${approver.lastname}` : 'N/A'}</Text>
 
           {/* Utility Worker Details */}
           <Text className="font-semibold text-base text-gray-800 mt-4 mb-2">Assigned Personnel</Text>
@@ -92,7 +92,7 @@ export default function TasksScreen({ navigation }) {
             {
               utility_workers.slice(0, showAll[item.id] ? utility_workers.length : initialDisplayCount)
                 .map((worker, index) => (
-                  <Text key={index} className="text-gray-700 pl-2">
+                  <Text key={index} className="text-gray-700 pl-2 text-lg">
                     {worker ? `${worker.firstname} ${worker.lastname} ( ${worker.department} )` : 'N/A'}
                   </Text>
                 ))
@@ -111,15 +111,15 @@ export default function TasksScreen({ navigation }) {
 
         </View>
         {/* EDIT BUTTON */}
-        <View className="flex-col items-center gap-2">
+        <View className="flex-col items-center gap-2 pt-4">
           <TouchableOpacity
             onPress={() => updateStatus(item.id, 'completed')}
-            className={`flex-row items-center p-2 rounded bg-blue-400 ${item?.proof && item?.status !== 'completed' ? 'flex' : 'hidden'}`}
+            className={`flex-row w-full justify-center items-center p-2 rounded bg-blue-400 ${item?.proof && item?.status !== 'completed' ? 'flex' : 'hidden'}`}
           >
             <MaterialIcons name="edit" size={15} color="white" />
             <Text className="text-white font-bold ml-1">Completed</Text>
           </TouchableOpacity>
-          <TouchableOpacity className={`flex-row bg-teal-600 p-1 rounded-md items-center ${item?.proof ? 'flex' : 'hidden'}`}
+          <TouchableOpacity className={`flex-row w-full justify-center bg-teal-600 p-1 rounded-md items-center ${item?.proof ? 'flex' : 'hidden'}`}
             onPress={() => navigation.navigate('Image Screen', { data: item })}>
             <Entypo name="magnifying-glass" size={24} color="white" />
             <Text className="text-white font-bold">

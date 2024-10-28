@@ -80,13 +80,13 @@ export default function PreventiveMaintenanceTask({ navigation }) {
             <ScrollView className="px-4 py-6">
 
                 {preventiveDatas.map((maintenance) => (
-                    <View key={maintenance.id} className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
+                    <View key={maintenance.id} className="flex-col justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
                         <View style={{ flex: 1 }}>
                             <Text className="text-xl font-bold text-gray-800">{maintenance.name}</Text>
-                            <Text className="text-gray-600 mb-2">{maintenance.description}</Text>
-                            <Text className="text-gray-700 mb-1">Scheduled From: {maintenance.scheduled_date_from}</Text>
-                            <Text className="text-gray-700 mb-1">Scheduled To: {maintenance.scheduled_date_to}</Text>
-                            <Text className="text-gray-700 mb-2">Status:
+                            <Text className="text-gray-600 mb-2 text-lg">{maintenance.description}</Text>
+                            <Text className="text-gray-700 mb-1 text-lg">Scheduled From: {maintenance.scheduled_date_from}</Text>
+                            <Text className="text-gray-700 mb-1 text-lg">Scheduled To: {maintenance.scheduled_date_to}</Text>
+                            <Text className="text-gray-700 mb-2 text-lg">Status:
                                 <Text
                                     className={`text-white ${maintenance.status === 'in-progress' ? 'bg-blue-400'
                                         : maintenance.status === 'pending' ? 'bg-yellow-400' : 'bg-emerald-400'}`}>
@@ -94,7 +94,7 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                                 </Text>
                             </Text>
 
-                            <Text className="mt-4 font-semibold text-gray-800">Assigned Personnel ( {maintenance?.users?.length} )</Text>
+                            <Text className="mt-4 font-semibold text-gray-800 text-lg">Assigned Personnel ( {maintenance?.users?.length} )</Text>
                             {/* {maintenance.users.map((user) => (
                                 <View key={user.id} className="ml-4 mt-2">
                                     <Text className="text-gray-700">{`${user.firstname || 'N/A'} ${user.lastname || 'N/A'} (${user.department || 'N/A'})`}</Text>
@@ -105,7 +105,7 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                                 {
                                     maintenance.users.slice(0, showAll ? maintenance.users.length : initialDisplayCount)
                                         .map((user, index) => (
-                                            <Text key={index} className="text-gray-700 pl-2">
+                                            <Text key={index} className="text-gray-700 pl-2 text-lg">
                                                 {user ? `${user.firstname} ${user.lastname} ( ${user.department} )` : 'N/A'}
                                             </Text>
                                         ))
@@ -134,7 +134,7 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                         {maintenance.status === 'pending' && (
                             <TouchableOpacity
                                 onPress={() => confirm(maintenance)}
-                                className={`flex-row items-center p-2 rounded ${maintenance.status !== 'pending' ? 'bg-slate-400' : 'bg-blue-400'}`}
+                                className={`flex-row items-center p-2 rounded justify-center w-full mt-2 ${maintenance.status !== 'pending' ? 'bg-slate-400' : 'bg-blue-400'}`}
                                 disabled={maintenance.status !== 'pending'}
                             >
                                 <MaterialIcons name="autorenew" size={20} color="white" />
@@ -144,9 +144,9 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                     </View>
                 ))}
 
+            </ScrollView>
                 {loading && <Loading />}
                 <Toast />
-            </ScrollView>
         </View>
     );
 }

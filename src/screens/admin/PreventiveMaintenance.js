@@ -88,13 +88,13 @@ export default function PreventiveMaintenanceTask({ navigation }) {
 
                 {preventiveDatas.map((maintenance) => 
                 (
-                    <View key={maintenance.id} className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
+                    <View key={maintenance.id} className="flex-col justify-between mb-6 p-4 bg-white rounded-lg shadow">
                         <View style={{ flex: 1 }}>
                             <Text className="text-xl font-bold text-gray-800">{maintenance.name}</Text>
-                            <Text className="text-gray-600 mb-2">{maintenance.description}</Text>
-                            <Text className="text-gray-700 mb-1">Scheduled From: {maintenance.scheduled_date_from}</Text>
-                            <Text className="text-gray-700 mb-1">Scheduled To: {maintenance.scheduled_date_to}</Text>
-                            <Text className="text-gray-700 mb-2">Status:
+                            <Text className="text-gray-600 mb-2 text-lg">Description: {maintenance.description}</Text>
+                            <Text className="text-gray-700 mb-1 text-lg">Scheduled From: {maintenance.scheduled_date_from}</Text>
+                            <Text className="text-gray-700 mb-1 text-lg">Scheduled To: {maintenance.scheduled_date_to}</Text>
+                            <Text className="text-gray-700 mb-2 text-lg">Status:
                                 <Text
                                     className={`text-white ${maintenance.status === 'in-progress' ? 'bg-blue-400'
                                         : maintenance.status === 'pending' ? 'bg-yellow-400' : 'bg-emerald-400'}`}>
@@ -102,7 +102,7 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                                 </Text>
                             </Text>
 
-                            <Text className="mt-4 font-semibold text-gray-800">Assigned Personnel:</Text>
+                            <Text className="mt-4 font-semibold text-gray-800 text-lg">Assigned Personnel:</Text>
                             
                             <View style={{ minHeight: 50 }}>
                                 {
@@ -127,7 +127,7 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                         </View>
                         <TouchableOpacity
                             onPress={() => navigation.navigate('Scheduled Preventive Maintenance', { data: maintenance })}
-                            className={`flex-row items-center p-2 rounded bg-blue-400`}
+                            className={`flex-row items-center p-2 rounded bg-blue-400 w-full justify-center mt-2`}
                         >
                             <MaterialIcons name="edit" size={15} color="white" />
                             <Text className="text-white font-bold ml-1">Edit</Text>
@@ -135,9 +135,9 @@ export default function PreventiveMaintenanceTask({ navigation }) {
                     </View>
                 ))}
 
-                {loading && <Loading />}
-                <Toast />
             </ScrollView>
+            {loading && <Loading />}
+            <Toast />
         </View>
     );
 }

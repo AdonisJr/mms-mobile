@@ -37,6 +37,7 @@ import EditInventory from './src/screens/admin/EditInventory';
 import EditRequestedServices from './src/components/page/faculty/EditRequestedServices';
 import EditTask from './src/screens/admin/EditTask';
 import { ViewImageScreen } from './src/components/page/ViewImageScreen';
+import NotificationScreen from './src/screens/NotificationScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,6 +83,7 @@ export default function App() {
         <Stack.Screen name="FacultyApp" component={FacultyApp} options={{ headerShown: false }} />
         <Stack.Screen name="WorkerApp" component={WorkerApp} options={{ headerShown: false }} />
         <Stack.Screen name="Image Screen" component={ViewImageScreen} />
+        <Stack.Screen name="Notifications" component={NotificationScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>

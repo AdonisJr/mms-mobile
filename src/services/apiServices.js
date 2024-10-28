@@ -325,3 +325,27 @@ export const fetchServicesByCurrentUser = async () => {
         throw new Error('Failed to fetch request')
     }
 }
+
+// notification
+
+export const fetchNotifications = async () => {
+    try {
+        const response = await apiClient.get(`/notifications`)
+        console.log('response data: ', response.data)
+        return response.data;
+    } catch (error) {
+        console.log('apiServices/fetchNotification : ', error.response.data.message)
+        throw new Error('Failed to fetch notification')
+    }
+}   
+
+export const notifMarkAsRead = async (id) => {
+    try {
+        const response = await apiClient.patch(`/notifications/${id}/read`)
+        console.log('response data: ', response.data)
+        return response.data;
+    } catch (error) {
+        console.log('apiServices/notifMarkAsRead : ', error.response.data.message)
+        throw new Error('Failed to to update isRead')
+    }
+}

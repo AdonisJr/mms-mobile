@@ -85,10 +85,12 @@ export default function Users({ navigation, activePage }) {
               return (
                 <View className="flex-row items-center justify-between p-4 mb-3 bg-white rounded-lg shadow-md">
                   <View className='w-5/6'>
-                    <Text className="text-lg font-semibold">{item?.firstname} {item?.middlename || null} {item?.lastname}</Text>
-                    <Text className="text-sm text-black">{item?.email}</Text>
+                    <Text className="text-xl font-semibold">Name: {item?.firstname} {item?.middlename || null} {item?.lastname}</Text>
+                    <Text className="text-black text-lg">Email: {item?.email}</Text>
                     {/* <Text className="text-sm text-slate-500">{item?.type === 'general_service' ? 'ADMIN' : item.type === 'utility_worker' ? 'PERSONNEL' : item?.type.toUpperCase()}</Text> */}
-                    <Text className="text-xs text-slate-500">{formatDate(item?.created_at)}</Text>
+                    <Text className="text-lg text-slate-500">Department: {item?.department}</Text>
+                    <Text className="text-lg text-slate-500">Gender: {item?.gender}</Text>
+                    <Text className="text-lg text-slate-500">Created: {formatDate(item?.created_at)}</Text>
                   </View>
                   <View className='flex-col gap-5'>
                     <TouchableOpacity className="p-2 rounded-full bg-emerald-200" onPress={() => navigation.navigate('Edit User', { data: item })}>

@@ -98,32 +98,32 @@ export default function WorkerScreen({ navigation }) {
     // Render a single task
     const renderTask = ({ item }) => {
         const { service_request, utility_workers, deadline, status } = item;
-        const { service, requested, approver } = service_request;
+        const { service, requested, approver } = service_request;  
 
         return (
-            <View className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
+            <View className="flex-col gap-2 items-center mb-6 p-2 bg-white rounded-lg shadow">
                 <View key={item.id}>
                     {/* Task Details */}
                     <Text className="text-xl font-bold text-gray-800">{service?.name || 'N/A'}</Text>
-                    <Text className="text-gray-600 mb-1">Where: {requested?.department || 'N/A'}</Text>
-                    <Text className="text-gray-600 mb-1">Classification: {service_request?.classification?.toUpperCase() || 'N/A'}</Text>
-                    <Text className="text-gray-600 mb-1">Description: {service_request?.description || 'N/A'}</Text>
-                    <Text className="text-gray-700 mb-1">Task Status:
+                    <Text className="text-gray-600 mb-1 text-lg">Where: {requested?.department || 'N/A'}</Text>
+                    <Text className="text-gray-600 mb-1 text-lg">Classification: {service_request?.classification?.toUpperCase() || 'N/A'}</Text>
+                    <Text className="text-gray-600 mb-1 text-lg">Description: {service_request?.description || 'N/A'}</Text>
+                    <Text className="text-gray-700 mb-1 text-lg">Task Status:
                         <Text
                             className={`text-white ${status === 'in_progress' ? 'bg-blue-400'
                                 : status === 'pending' ? 'bg-yellow-400' : 'bg-emerald-400'}`}>
                             {" " + status.toUpperCase() + " "}
                         </Text>
                     </Text>
-                    <Text className="text-gray-700 mb-1">Deadline: {deadline}</Text>
+                    <Text className="text-gray-700 mb-1 text-lg">Deadline: {deadline}</Text>
 
                     {/* Service Request Details */}
-                    <Text className="mt-4 font-semibold text-gray-800">Service Request</Text>
-                    <Text className="text-gray-700">Requested By: {requested ? `${requested.firstname} ${requested.lastname}` : 'N/A'}</Text>
-                    <Text className="text-gray-700">Approved By: {approver ? `${approver.firstname} ${approver.lastname}` : 'N/A'}</Text>
+                    <Text className="mt-4 font-semibold text-gray-800 text-lg">Service Request</Text>
+                    <Text className="text-gray-700 text-lg">Requested By: {requested ? `${requested.firstname} ${requested.lastname}` : 'N/A'}</Text>
+                    <Text className="text-gray-700 text-lg">Approved By: {approver ? `${approver.firstname} ${approver.lastname}` : 'N/A'}</Text>
 
                     {/* Utility Worker Details */}
-                    <Text className="mt-4 font-semibold text-gray-800">Assigned Utility Worker</Text>
+                    <Text className="mt-4 font-semibold text-gray-800 text-lg">Assigned Utility Worker</Text>
                     {/* {
                         utility_workers.map(worker => (
                             <Text className="text-gray-700 pl-2">{worker ? `${worker.firstname} ${worker.lastname} ( ${worker.department} )`  : 'N/A'}</Text>
@@ -134,7 +134,7 @@ export default function WorkerScreen({ navigation }) {
                         {
                             utility_workers.slice(0, showAll ? utility_workers.length : initialDisplayCount)
                                 .map((worker, index) => (
-                                    <Text key={index} className="text-gray-700 pl-2">
+                                    <Text key={index} className="text-gray-700 pl-2 text-lg">
                                         {worker ? `${worker.firstname} ${worker.lastname} ( ${worker.department} )` : 'N/A'}
                                     </Text>
                                 ))
@@ -158,7 +158,7 @@ export default function WorkerScreen({ navigation }) {
                     {status === 'pending' && (
                         <TouchableOpacity
                             onPress={() => updateStatus(item.id, 'in_progress')}
-                            className="flex-row items-center p-2 bg-blue-400 rounded ml-2"
+                            className="flex-row items-center p-2 bg-blue-400 rounded ml-2 w-full justify-center"
                         >
                             <MaterialIcons name="autorenew" size={20} color="white" />
                             <Text className="text-white font-bold ml-2">Start Task</Text>
