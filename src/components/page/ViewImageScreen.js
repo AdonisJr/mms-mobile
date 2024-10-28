@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, Image, ScrollView } from 'react-native';
+import { View, Image, ScrollView, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Text, Button } from 'react-native-elements';
 import { IMG_URL } from '@env';
 
 export const ViewImageScreen = ({ route, navigation }) => {
   const data = route.params.data; // Get image URI from params
   console.log(data.proof)
-  
+  console.log({image_url: IMG_URL})
   return (
     <View className="flex-1 items-center bg-gray-100 p-4">
       <View>
@@ -25,11 +24,6 @@ export const ViewImageScreen = ({ route, navigation }) => {
           <Text className="text-center text-red-500">No Image Available</Text>
         )}
       </View>
-      {/* <Button
-        title="Close"
-        buttonStyle={`mt-4 bg-blue-600 rounded-full w-1/3`}
-        onPress={() => navigation.goBack()}
-      /> */}
     </View>
   );
 };

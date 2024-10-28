@@ -18,7 +18,7 @@ export default function FacultyScreen({ navigation }) {
     try {
       const response = await fetchServicesByCurrentUser();
       setRequestedServices(response); // Update the state with the fetched data
-      // console.log('Available Services:', response); // Correct log after fetching data
+      console.log('Available Services:', response); // Correct log after fetching data
     } catch (error) {
       console.log(error);
       Toast.show({ type: 'error', text1: 'Error', text2: error.message });
@@ -50,15 +50,21 @@ export default function FacultyScreen({ navigation }) {
           <View className="flex-row justify-between items-center mb-6 p-4 bg-white rounded-lg shadow">
             <View style={{ flex: 1 }}>
               <Text className="text-xl font-bold text-gray-800">{item.service.name}</Text>
-              <Text className="text-gray-600 mb-2">Description: {item.description}</Text>
-              <Text className="text-gray-600 mb-2">Expected Start Date: {item.expected_start_date}</Text>
-              <Text className="text-gray-600 mb-2">Expected End Date: {item.expected_end_date}</Text>
-              <Text className="text-gray-600 mb-2">Status: {item.status}</Text>
-              <Text className="text-gray-600 mb-2">
-                Approved By: {item.approved_by ? item.approved_by : 'Pending'}
+              <Text className="text-gray-600 mb-2 text-lg">Description: {item.description}</Text>
+              <Text className="text-gray-600 mb-2 text-lg">Expected Start Date: {item.expected_start_date}</Text>
+              <Text className="text-gray-600 mb-2 text-lg">Expected End Date: {item.expected_end_date}</Text>
+              <Text className="text-gray-700 mb-2 text-lg">Status:
+                <Text
+                  className={`text-white ${item.status === 'in-progress' ? 'bg-blue-400'
+                    : item.status === 'pending' ? 'bg-yellow-400' : 'bg-emerald-400'}`}>
+                  {" " + item.status + " "}
+                </Text>
+              </Text>
+              <Text className="text-gray-600 mb-2 text-lg">
+                Approved By: {item.approved_by ? `${item.approver.firstname} ${item.approver.middlename} ${item.approver.lastname}` : 'Pending'}
               </Text>
 
-              <Text className="text-gray-600 mb-2">Date Requested: {new Date(item.created_at).toLocaleDateString()}</Text>
+              <Text className="text-gray-600 mb-2 text-lg">Date Requested: {new Date(item.created_at).toLocaleDateString()}</Text>
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Edit Requested Services', { data: item })}

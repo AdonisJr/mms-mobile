@@ -45,8 +45,8 @@ export default function EditScheduledPreventiveMaintenance({ route, navigation }
     const [formData, setFormData] = useState({
         name: selected.name,
         description: selected.description,
-        scheduled_date_from: selected.scheduled_date_from,
-        scheduled_date_to: selected.scheduled_date_to,
+        scheduled_date_from: new Date(),
+        scheduled_date_to: new Date(selected.scheduled_date_to) || new Date(),
         status: selected.status,
         user_ids: selectedUsers,
         id: selected.id
