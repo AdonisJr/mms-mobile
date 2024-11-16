@@ -1,4 +1,4 @@
-package gsmms.com.android
+package com.selfproject.gsmms
 
 import android.os.Build
 import android.os.Bundle

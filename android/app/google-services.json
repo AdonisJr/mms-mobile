@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "503117584588",
+    "project_id": "gsmms-da0f6",
+    "storage_bucket": "gsmms-da0f6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503117584588:android:155a3afd7cd2046b0a0a69",
+        "android_client_info": {
+          "package_name": "com.selfproject.gsmms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjxz7iXtvsXqg278DiFOUbjUdKwyP2qiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

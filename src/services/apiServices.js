@@ -20,7 +20,7 @@ apiClient.interceptors.request.use(async (config) => {
 export const fetchAvailableServices = async () => {
     try {
         const response = await apiClient.get(`/service`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/fetchAvailableServices : ', error)
@@ -30,7 +30,7 @@ export const fetchAvailableServices = async () => {
 
 export const insertAvailableServices = async (data) => {
     try {
-        console.log(data)
+        // console.log(data)
         const response = await apiClient.post(`/service`, data)
         // console.log('response data: ', response.data)
         return response.data;
@@ -43,7 +43,7 @@ export const insertAvailableServices = async (data) => {
 export const updateAvailableServices = async (payload) => {
     try {
         const response = await apiClient.put(`/service/${payload.id}`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updateAvailableServices : ', error)
@@ -54,7 +54,7 @@ export const updateAvailableServices = async (payload) => {
 export const deleteAvailableServices = async (id) => {
     try {
         const response = await apiClient.delete(`/service/${id}`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updateAvailableServices : ', error)
@@ -68,7 +68,7 @@ export const fetchUserByType = async (type) => {
     try {
         // const response = await apiClient.get(`/getUserByType/${type}`)
         const response = await apiClient.get(`/getUserByType/${type}`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/getUserByType : ', error)
@@ -88,10 +88,22 @@ export const insertUser = async (data) => {
     }
 }
 
+export const logoutFromBE = async () => {
+    try {
+        const response = await apiClient.post(`/logout`)
+        // console.log('response data: ', response.data)
+        return response.data;
+    } catch (error) {
+
+        console.log('apiServices/logout : ', error)
+        throw new Error('Failed to logout from backend.')
+    }
+}
+
 export const updateUser = async (payload) => {
     try {
         const response = await apiClient.put(`/users/${payload.id}`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updateUser : ', error.response.data)
@@ -102,7 +114,7 @@ export const updateUser = async (payload) => {
 export const deleteUser = async (id) => {
     try {
         const response = await apiClient.delete(`/service/${id}`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updateAvailableServices : ', error)
@@ -126,7 +138,7 @@ export const fetchRequestedServices = async () => {
 export const sendRequest = async (payload) => {
     try {
         const response = await apiClient.post(`/service-requests`, payload)
-        console.log('requested services: ', response.data)
+        // console.log('requested services: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/sendRequest : ', error.response.data.message)
@@ -140,7 +152,7 @@ export const updateRequestedStatus = async (id, status) => {
     console.log({ status: status })
     try {
         const response = await apiClient.put(`/service-requests/${id}`, { status: status })
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updateRequestedStatus : ', error.response.data.message)
@@ -154,7 +166,7 @@ export const assignTask = async (serviceRequestId, payload) => {
     console.log(payload)
     try {
         const response = await apiClient.post(`/service-requests/${serviceRequestId}/assign-task`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/assignTask : ', error.response.data.message)
@@ -165,7 +177,7 @@ export const assignTask = async (serviceRequestId, payload) => {
 export const fetchTasks = async () => {
     try {
         const response = await apiClient.get(`/tasks`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/fetchTasks : ', error.response.data.message)
@@ -188,7 +200,7 @@ export const fetchMyTask = async () => {
 export const updateTaskStatus = async (payload) => {
     try {
         const response = await apiClient.put(`/updateTaskStatus/${payload.id}`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updateTask : ', error.response.data.message)
@@ -234,7 +246,7 @@ export const uploadProof = async (id, uri) => {
 export const schedulePreventiveMaintenance = async (payload) => {
     try {
         const response = await apiClient.post(`/preventive-maintenance`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/schedulePreventiveMaintenance : ', error.response.data.message)
@@ -246,7 +258,7 @@ export const updatePreventiveTaskStatus = async (payload) => {
     console.log({ id: payload })
     try {
         const response = await apiClient.put(`/preventive-maintenance/${payload.id}`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updatePreventiveTaskStatus : ', error.response.data.message)
@@ -257,7 +269,7 @@ export const updatePreventiveTaskStatus = async (payload) => {
 export const fetchAllPreventiveMaintenance = async () => {
     try {
         const response = await apiClient.get(`/preventive-maintenance`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/fetchAllPreventiveMaintenance : ', error.response.data.message)
@@ -268,7 +280,7 @@ export const fetchAllPreventiveMaintenance = async () => {
 export const fetchMyPreventiveMaintenanceTasks = async () => {
     try {
         const response = await apiClient.get(`/getMyPreventiveMaintenanceTasks`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/fetchTasksForUser(preventive maintenance) : ', error.response.data.message)
@@ -281,7 +293,7 @@ export const fetchMyPreventiveMaintenanceTasks = async () => {
 export const insertInventory = async (payload) => {
     try {
         const response = await apiClient.post(`/inventory`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/insertInventory : ', error.response.data.message)
@@ -292,7 +304,7 @@ export const insertInventory = async (payload) => {
 export const updateInventory = async (payload) => {
     try {
         const response = await apiClient.put(`/inventory/${payload.id}`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/updateInventory : ', error.response.data.message)
@@ -304,7 +316,7 @@ export const updateInventory = async (payload) => {
 export const fetchInventory = async (payload) => {
     try {
         const response = await apiClient.get(`/inventory`, payload)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/fetchInventory : ', error.response.data.message)
@@ -318,7 +330,7 @@ export const fetchInventory = async (payload) => {
 export const fetchServicesByCurrentUser = async () => {
     try {
         const response = await apiClient.get(`/getByCurrentUser`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/getServicesByCurrentUser : ', error.response.data.message)
@@ -331,7 +343,7 @@ export const fetchServicesByCurrentUser = async () => {
 export const fetchNotifications = async () => {
     try {
         const response = await apiClient.get(`/notifications`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/fetchNotification : ', error.response.data.message)
@@ -342,7 +354,7 @@ export const fetchNotifications = async () => {
 export const notifMarkAsRead = async (id) => {
     try {
         const response = await apiClient.patch(`/notifications/${id}/read`)
-        console.log('response data: ', response.data)
+        // console.log('response data: ', response.data)
         return response.data;
     } catch (error) {
         console.log('apiServices/notifMarkAsRead : ', error.response.data.message)

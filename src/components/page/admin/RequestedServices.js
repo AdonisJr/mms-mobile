@@ -101,7 +101,7 @@ export default function RequestedServices({ navigation }) {
         <Text className="text-lg font-bold text-gray-800">{item.service.name}</Text>
         <Text className="text-gray-600 text-lg">{item.description}</Text>
         <Text className="text-gray-800 text-lg">Requested by:
-          <Text className="font-semibold text-lg">{`${item.user.firstname} ${item.user.lastname}`}</Text>
+          <Text className="font-semibold text-lg">{`${item.requested?.firstname} ${item.requested?.lastname}`}</Text>
         </Text>
         <Text className="text-gray-800 text-lg">Department: <Text className="font-semibold">{item.user.department}</Text></Text>
         <Text className={`text-gray-600 text-lg ${item.status === 'approved' ? '' : 'mb-2'}`}>Requested Date: {new Date(item.created_at).toLocaleDateString()}</Text>

@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
     const handleLogin = async () => {
         setLoading(false); // Stop loading initially
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+        console.log(API_URL)
         // Basic validation
         if (!emailRegex.test(email)) return Toast.show({ type: 'error', text2: 'Invalid email format' });
         if (password === '') return Toast.show({ type: 'error', text1: 'Password is required' });

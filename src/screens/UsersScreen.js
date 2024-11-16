@@ -17,7 +17,15 @@ export default function UsersScreen({ navigation }) {
       setNavigation('Users');
     }, [])
   );
-
+  useEffect(() => {
+    const requestPermission = async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Push notifications are required for this feature to work.');
+      }
+    };
+    requestPermission();
+  }, []);
   return (
     <View className="flex-1 py-6">
       <Header navigation={navigation} />

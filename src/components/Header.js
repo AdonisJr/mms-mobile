@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -8,8 +8,10 @@ import { useUserStore } from '../store/userStore';
 import { useCurrentNavStore } from '../store/currentNavStore';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { fetchNotifications } from '../services/apiServices';
+import { fetchNotifications, logoutFromBE } from '../services/apiServices';
 import { useFocusEffect } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import * as Notifications from 'expo-notifications';
 
 export default function Header({ navigation }) {
     const { user, logout } = useUserStore();
@@ -18,10 +20,18 @@ export default function Header({ navigation }) {
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
 
-    const handleLogout = () => {
-        logout();
-        navigation.navigate('Login');
-        setDropdownVisible(false);
+    const handleLogout = async () => {
+        // try {
+            // await logoutFromBE();
+            Toast.show({ type: 'success', text1: 'Success', text2: 'Successfully logged out' });
+            setTimeout(() => {
+                logout();
+                navigation.navigate('Login');
+                setDropdownVisible(false);
+            }, 1000)
+        // } catch (error) {
+        //     Toast.show({ type: 'error', text1: 'Error', text2: error.message });
+        // }
     };
 
     const getNotifications = async () => {
@@ -32,18 +42,34 @@ export default function Header({ navigation }) {
             // Filter unread notifications and count them
             const unreadNotifications = response.filter(notification => !notification.isRead);
             setUnreadCount(unreadNotifications.length);
-            console.log('Requested Services:', response);
+            // console.log('Requested Services:', response);
         } catch (error) {
             console.log(error);
-            // Toast.show({ type: 'error', text1: 'Error', text2: error.message });
+            Toast.show({ type: 'error', text1: 'Error', text2: error.message });
         }
     };
 
+    // Set up the notification listener
+    useEffect(() => {
+        const notificationListener = Notifications.addNotificationReceivedListener(notification => {
+            // Whenever a notification is received, trigger getNotifications
+            console.log('Notification received:', notification);
+            getNotifications();
+        });
+
+        // Cleanup the listener when the component unmounts
+        return () => {
+            notificationListener.remove();
+        };
+    }, [getNotifications]);
+
+    // Use useFocusEffect to call getNotifications when the screen is focused
     useFocusEffect(
         useCallback(() => {
+            // Fetch notifications when screen is focused
             getNotifications();
-            console.log({ notif: notifications })
-        }, [])
+            // console.log({ notif: notifications });
+        }, []) // Re-run when notifications state changes
     );
 
     return (
@@ -72,7 +98,7 @@ export default function Header({ navigation }) {
                     </TouchableOpacity>
 
                     <View className="flex-row items-center gap-4">
-                        <TouchableOpacity className="relative" onPress={() => navigation.navigate('Notifications', { data: notifications})}>
+                        <TouchableOpacity className="relative" onPress={() => navigation.navigate('Notifications', { data: notifications })}>
                             {unreadCount > 0 && (
                                 <View className="absolute top-0 -right-2 bg-red-500 rounded-full flex items-center justify-center z-40 w-5 h-3">
                                     <Text className="text-xs text-white font-bold">{unreadCount}</Text>

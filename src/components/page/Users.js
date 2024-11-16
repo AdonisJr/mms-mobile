@@ -24,7 +24,7 @@ export default function Users({ navigation, activePage }) {
       setMainDataLoading(true);
       const response = await fetchUserByType(activePage);
       setUsers(response); // Update the state with the fetched data
-      console.log('Available Users:', response); // Correct log after fetching data
+      // console.log('Available Users:', response); // Correct log after fetching data
     } catch (error) {
       console.log(error)
       Toast.show({ type: 'error', text1: 'Error', text2: error.message });

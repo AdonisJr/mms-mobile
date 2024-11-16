@@ -3,7 +3,12 @@
     "name": "gsmms",
     "slug": "gsmms",
     "version": "1.0.0",
-    "projectId": "d5ded826-5c4d-41f3-8ee4-573cc28cd9cc",
+    "newArchEnabled": true,
+    "extra": {
+      "eas": {
+        "projectId": "d5ded826-5c4d-41f3-8ee4-573cc28cd9cc"
+      }
+    },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +25,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "gsmms.com.android"
+      "package": "com.selfproject.gsmms",
+      "googleServicesFile": "./android/app/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"

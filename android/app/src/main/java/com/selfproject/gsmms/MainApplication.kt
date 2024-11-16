@@ -1,4 +1,4 @@
-package gsmms.com.android
+package com.selfproject.gsmms
 
 import android.app.Application
 import android.content.res.Configuration
